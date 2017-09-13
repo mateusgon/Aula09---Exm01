@@ -1,11 +1,16 @@
 package aula09exmp01;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.HeadlessException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.Box;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -14,6 +19,7 @@ import javax.swing.JTextField;
 public class Aula09Exmp01 extends JFrame {
 
     private JPanel principal = new JPanel();
+    private JComboBox<String> layouts = new JComboBox<>(new String[]{"Absolute", "FlowLayout", "BorderLayout", "GridLayout", "GridBagLayout", "HorizontalBox", "VerticalBox"});
     private JLabel lbl01 = new JLabel("Etiqueta 1");
     private JLabel lbl02 = new JLabel("Etiqueta 2");
     private JLabel lbl03 = new JLabel("Etiqueta 3");
@@ -25,12 +31,48 @@ public class Aula09Exmp01 extends JFrame {
     
     public Aula09Exmp01() throws HeadlessException {
         super ("Exemplos de Layout");
-        //configuraFlowLayout();
-        //configuraBorderLayout();
-        //configuraLayoutAbsoluto();
-        //configurarGridLayout();
-        configurarGridBagLayout();
-        add(principal);
+        configuraLayoutAbsoluto();
+        add(layouts, BorderLayout.NORTH);
+        add(principal, BorderLayout.CENTER);
+        layouts.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println (layouts.getSelectedIndex());
+                switch (layouts.getSelectedIndex())
+                {
+                    case 0: 
+                        configuraLayoutAbsoluto();
+                        pack();
+                        break;
+                    case 1:
+                        configuraFlowLayout();
+                        pack();
+                        break;
+                    case 2:
+                        configuraBorderLayout();
+                        pack();
+                        break;
+                    case 3:
+                        configurarGridLayout();
+                        pack();
+                        break;
+                    case 4:
+                        configurarGridBagLayout();
+                        pack();
+                        break;
+                    case 5: 
+                        configurarHorizontalBox();
+                        pack();
+                        break;
+                    case 6:
+                        configurarVerticalBox();
+                        pack();
+                        break;
+                }
+                pack();
+            }
+        }
+        );
     }
 
     public static void main(String[] args) {
@@ -41,7 +83,7 @@ public class Aula09Exmp01 extends JFrame {
         janela.setVisible(true);
     }    
 
-/*    private void configuraFlowLayout() {
+    private void configuraFlowLayout() {
         principal.setLayout(new FlowLayout());
         principal.add(lbl01);
         principal.add(txt01);
@@ -52,7 +94,10 @@ public class Aula09Exmp01 extends JFrame {
         principal.add(lbl04);
         principal.add(txt04);
     }
-*/ /*    private void configuraBorderLayout() {
+    private void configuraBorderLayout() {
+        principal.setSize(400, 300);
+        principal.setPreferredSize(new Dimension(400, 300));
+        
         principal.setLayout(new BorderLayout());
         principal.add(lbl01, BorderLayout.NORTH);
         principal.add(txt01, BorderLayout.WEST);
@@ -60,10 +105,11 @@ public class Aula09Exmp01 extends JFrame {
         principal.add(lbl03, BorderLayout.EAST);
         principal.add(txt03, BorderLayout.SOUTH);
     }
-*/
 
-/*    private void configuraLayoutAbsoluto() {
+
+    private void configuraLayoutAbsoluto() {
         principal.setLayout(null);
+        principal.setPreferredSize(new Dimension(400, 300));
         
         principal.add(lbl01);
         principal.add(txt01);
@@ -94,9 +140,9 @@ public class Aula09Exmp01 extends JFrame {
         txt03.setLocation(120, 90);
         txt04.setLocation(120, 130);
          }
-    */      
+      
 
-/*    private void configurarGridLayout() {
+    private void configurarGridLayout() {
         principal.setLayout(new GridLayout(4, 2));
         principal.add(lbl01);
         principal.add(txt01);
@@ -107,13 +153,16 @@ public class Aula09Exmp01 extends JFrame {
         principal.add(lbl04);
         principal.add(txt04);
     }
-*/
+
 
     private void configurarGridBagLayout() {
         GridBagLayout gbl = new GridBagLayout();
         GridBagConstraints gbc = new GridBagConstraints();
         
         principal.setLayout(gbl);
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.ipadx = 5;
+        gbc.ipady = 10;
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridheight = 1;
@@ -135,6 +184,8 @@ public class Aula09Exmp01 extends JFrame {
         gbc.gridy = 3;
         gbl.setConstraints(lbl04, gbc);
 
+        gbc.ipady = 0;
+        
         principal.add(txt01);
         gbc.gridx = 1;
         gbc.gridy = 0;
@@ -155,4 +206,34 @@ public class Aula09Exmp01 extends JFrame {
         gbl.setConstraints(txt04, gbc);
 
     }
+    
+    private void configurarHorizontalBox() {
+        Box horizontal = Box.createHorizontalBox();
+        
+            horizontal.add(lbl01);
+            horizontal.add(txt01);
+            horizontal.add(lbl02);
+            horizontal.add(txt02);
+            horizontal.add(lbl03);
+            horizontal.add(txt03);
+            horizontal.add(lbl04);
+            horizontal.add(txt04);
+            principal.add(horizontal);
+    }
+    private void configurarVerticalBox() {
+        Box vertical = Box.createVerticalBox();
+        
+            vertical.add(lbl01);
+            vertical.add(txt01);
+            vertical.add(lbl02);
+            vertical.add(txt02);
+            vertical.add(lbl03);
+            vertical.add(txt03);
+            vertical.add(lbl04);
+            vertical.add(txt04);
+            principal.add(vertical);
+    }
+
+    private void configurarBoxLayout() {
+        }
 }
